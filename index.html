@@ -1,0 +1,6 @@
+<script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
+<script>
+  var socket = io('http://localhost:3000');
+  const res = socket.emit('client.create_lobby', { mode: 'quiz' });
+  console.log(res)
+</script>
