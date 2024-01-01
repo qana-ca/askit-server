@@ -30,6 +30,12 @@ export type GameMode = 'quiz' | 'one_word' | 'speaking';
 
 export class CreateLobbyDto {
         @IsString()
+        name: string;
+
+        @IsString()
+        connectionCode: string;
+
+        @IsString()
         mode: GameMode;
 }
 

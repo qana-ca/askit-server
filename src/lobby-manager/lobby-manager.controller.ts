@@ -15,6 +15,8 @@ export class LobbyManagerController {
                 lobbies.forEach((lobby) => {
                         parsedLobbies.push({
                                 id: lobby.id,
+                                name: lobby.name,
+                                connectionCode: lobby.connectionCode,
                                 mode: lobby.mode,
                                 playersCount: lobby.clients.size,
                                 createdAt: lobby.createdAt,

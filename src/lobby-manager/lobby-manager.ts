@@ -1,6 +1,6 @@
 import { Cron } from '@nestjs/schedule';
 import { Server } from 'socket.io';
-import { AuthenticatedSocket, GameMode, ServerEvents, ServerPayloads } from 'src/game/game/game.types';
+import { AuthenticatedSocket, CreateLobbyDto, GameMode, ServerEvents, ServerPayloads } from 'src/game/game/game.types';
 import { Lobby } from 'src/lobby/lobby';
 import { Lobbies } from 'src/lobby/lobby.types';
 
@@ -23,8 +23,8 @@ export class LobbyManager {
                 client.data.lobby?.removeClient(client);
         }
 
-        public createLobby(mode: GameMode): Lobby {
-                const lobby = new Lobby(this.server, mode);
+        public createLobby(lobbyData: CreateLobbyDto): Lobby {
+                const lobby = new Lobby(this.server, lobbyData);
 
                 this.lobbies.set(lobby.id, lobby);
 
@@ -47,12 +47,6 @@ export class LobbyManager {
                 } else {
                         console.log('Error while leaving lobby');
                 }
-        }
-
-        // Cron every minute
-        @Cron('*/10 * * * * *')
-        private logLobbies(): void {
-                console.log(this.getLobbies());
         }
 
         @Cron('*/5 * * * *')

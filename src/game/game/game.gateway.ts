@@ -40,7 +40,7 @@ export class GameGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
                 client: AuthenticatedSocket,
                 data: CreateLobbyDto,
         ): WsResponse<ServerPayloads[ServerEvents.GameMessage]> {
-                const lobby = this.lobbyManager.createLobby(data.mode);
+                const lobby = this.lobbyManager.createLobby(data);
                 console.log('Created lobby', lobby);
                 lobby.addClient(client);
 
