@@ -6,6 +6,8 @@ import { ScheduleModule } from '@nestjs/schedule';
 import { ConfigModule } from '@nestjs/config';
 import { config } from './lib/config';
 import { LoggerMiddleware } from './middlewares/logger.middleware';
+import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
+import { APP_GUARD } from '@nestjs/core';
 
 @Module({
     imports: [
@@ -15,10 +17,24 @@ import { LoggerMiddleware } from './middlewares/logger.middleware';
             envFilePath: `.env.${process.env.NODE_ENV}`,
             validationSchema: config.validationSchema
         }),
-        ScheduleModule.forRoot()
+        ScheduleModule.forRoot(),
+        ThrottlerModule.forRoot([
+            {
+                ttl: Number(process.env.THROTTLER_TTL),
+                limit: Number(process.env.THROTTLER_LIMIT)
+            }
+        ])
     ],
     controllers: [LobbyManagerController],
-    providers: [Logger, GameGateway, LobbyManager]
+    providers: [
+        Logger,
+        {
+            provide: APP_GUARD,
+            useClass: ThrottlerGuard
+        },
+        GameGateway,
+        LobbyManager
+    ]
 })
 export class AppModule implements NestModule {
     configure(consumer: MiddlewareConsumer) {
