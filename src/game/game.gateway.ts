@@ -16,19 +16,19 @@ import {
 } from './game.types';
 import { Server, Socket } from 'socket.io';
 import { LobbyManager } from 'src/lobby-manager/lobby-manager';
+import { Logger } from '@nestjs/common';
 
 @WebSocketGateway({ cors: true })
 export class GameGateway implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect {
-    constructor(private readonly lobbyManager: LobbyManager) {}
+    constructor(private readonly lobbyManager: LobbyManager, private readonly logger: Logger) {}
 
     afterInit(server: Server): any {
         this.lobbyManager.server = server;
-
-        console.log('Game server initialized!');
     }
 
     async handleConnection(client: Socket): Promise<void> {
         this.lobbyManager.initializeSocket(client as AuthenticatedSocket);
+        this.logger.log(`Client connected: ${client.id}`);
     }
 
     async handleDisconnect(client: AuthenticatedSocket): Promise<void> {
