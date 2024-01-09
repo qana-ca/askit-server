@@ -18,9 +18,5 @@ export const config = {
         LOBBY_MAX_LIFETIME: joi.number().required(),
         THROTTLER_TTL: joi.number().required(),
         THROTTLER_LIMIT: joi.number().required()
-    }),
-    const: {
-        ONEC_ECP_VALIDATE_CERTIFICATE_OPERATION: 'ValidateCertificateAndGetInfo',
-        ONEC_ECP_GET_FILE_HASH_OPERATION: 'HashData'
-    }
+    })
 };
