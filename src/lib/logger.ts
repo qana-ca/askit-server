@@ -9,15 +9,15 @@ export const logger = WinstonModule.createLogger({
             level: 'error',
             format: winston.format.combine(winston.format.timestamp(), winston.format.json()),
             datePattern: 'DD-MM-YYYY',
-            zippedArchive: false,
-            maxFiles: '365d'
+            zippedArchive: true,
+            maxFiles: process.env.LOGGER_ERROR_MAX_FILES
         }),
         new DailyRotateFile({
             filename: `logs/%DATE%-combined.log`,
             format: winston.format.combine(winston.format.timestamp(), winston.format.json()),
             datePattern: 'DD-MM-YYYY',
-            zippedArchive: false,
-            maxFiles: '365d'
+            zippedArchive: true,
+            maxFiles: process.env.LOGGER_COMBINED_MAX_FILES
         }),
         new winston.transports.Console({
             format: winston.format.combine(
