@@ -1,4 +1,4 @@
-import { AuthenticatedSocket } from 'src/game/game.types';
+import { Client } from 'src/game/game.gateway.types';
 import { Lobby } from 'src/lobby/lobby';
 
 export class Instance {
@@ -8,7 +8,7 @@ export class Instance {
         this.lobby = lobby;
     }
 
-    public showTask(client: AuthenticatedSocket): void {
+    public showTask(client: Client): void {
         console.log(client);
         this.lobby.dispatchLobbyState();
     }

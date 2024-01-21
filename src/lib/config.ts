@@ -1,9 +1,5 @@
 import * as joi from 'joi';
 
-export interface ConfigServiceEnv {
-    LOBBY_MAX_LIFETIME: string;
-}
-
 export const config = {
     load: () => ({
         NODE_ENV: process.env.NODE_ENV,

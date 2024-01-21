@@ -1,5 +1,5 @@
 import { Controller, Get } from '@nestjs/common';
-import { LobbyManager } from './lobby-manager';
+import { LobbyManager } from './lobby-manager.service';
 import { GetLobbiesResponse } from './lobby-manager.types';
 
 @Controller('lobby-manager')
@@ -8,7 +8,7 @@ export class LobbyManagerController {
 
     @Get()
     getLobbies(): GetLobbiesResponse {
-        const lobbies = this.lobbyManager.getLobbies();
+        const lobbies = this.lobbyManager.lobbies;
         const parsedLobbies: GetLobbiesResponse = [];
 
         lobbies.forEach((lobby) => {

@@ -9,14 +9,14 @@ export class LoggerMiddleware implements NestMiddleware {
     use(req: Request, res: Response, next: NextFunction) {
         const sessionId = randomUUID();
 
-        /* Request */
+        // Request
         this.logger.log(
             `${sessionId} | REQUEST: [${req.method}] ${req.originalUrl} Body: ${JSON.stringify(
                 req.body
             )} Referer: "${req.get('referer')}" UA: "${req.get('user-agent')}" IP: ${req.ip}`
         );
 
-        /* Response */
+        // Response
         res.on('close', () => {
             const { statusCode, statusMessage } = res;
             const { method, originalUrl: url } = req;

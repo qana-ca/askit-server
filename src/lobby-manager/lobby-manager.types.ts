@@ -1,4 +1,4 @@
-import { GameMode } from 'src/game/game.types';
+import { GameMode } from 'src/instance/instance.types';
 
 export type GetLobbiesResponse = Array<{
     id: string;
