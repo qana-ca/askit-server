@@ -3,6 +3,9 @@
 
 Данная документация объясняет как работать с переменными окружения в проекте.
 
+#### See: https://github.com/typestack/class-validator?tab=readme-ov-file#validation-decorators
+#### See: https://www.npmjs.com/package/nest-typed-config
+
 ---
 ## Импорт модуля конфигурации
 
