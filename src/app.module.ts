@@ -3,7 +3,7 @@ import { GameGateway } from './game/game.gateway';
 import { LobbyManager } from './lobby-manager/lobby-manager.service';
 import { LobbyManagerController } from './lobby-manager/lobby-manager.controller';
 import { ScheduleModule } from '@nestjs/schedule';
-import { LoggerMiddleware } from './middlewares/logger.middleware';
+import { LoggerMiddleware } from './logger/logger.middleware';
 import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
 import { APP_GUARD } from '@nestjs/core';
 import { TypeOrmModule } from '@nestjs/typeorm';
