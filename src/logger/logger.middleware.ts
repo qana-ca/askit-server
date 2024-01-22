@@ -14,9 +14,7 @@ export class LoggerMiddleware implements NestMiddleware {
         this.logger.log(
             `${sessionId} | Request: [${req.method}] ${req.originalUrl} Body: ${JSON.stringify(
                 req.body
-            )} Referer: "${req.get('referer')}" UA: "${req.get('user-agent')}" IP: ${
-                req.ip
-            } | ISO: ${new Date().toISOString()}`
+            )} Referer: "${req.get('referer')}" UA: "${req.get('user-agent')}" IP: ${req.ip}`
         );
 
         // Response
