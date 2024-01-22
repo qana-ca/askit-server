@@ -28,7 +28,7 @@ export class LoggerMiddleware implements NestMiddleware {
             const deltaTime = dateEnd.getTime() - dateStart.getTime();
 
             this.logger.log(
-                `${sessionId} | Response: [${method}] ${url} ${statusCode} ${statusMessage} | Delta time: ${deltaTime}`
+                `${sessionId} | Response: [${method}] ${url} ${statusCode} ${statusMessage} | Delta time: ${deltaTime}ms`
             );
         });
 
