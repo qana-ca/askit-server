@@ -12,6 +12,7 @@ async function bootstrap() {
 
     const app = await NestFactory.create(AppModule, appOptions);
     app.useGlobalPipes(new ValidationPipe());
+    app.setGlobalPrefix('api');
 
     if (!applicationConfig.port) {
         throw new Error('Port is not defined');
