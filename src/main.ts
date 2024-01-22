@@ -1,7 +1,8 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common';
-import { logger } from './lib/logger';
+import { logger } from './utils/logger';
+import { applicationConfig } from './config/config.module';
 
 async function bootstrap() {
     const appOptions = {
@@ -12,11 +13,14 @@ async function bootstrap() {
     const app = await NestFactory.create(AppModule, appOptions);
     app.useGlobalPipes(new ValidationPipe());
 
-    if (process.env.ASKIT_SERVER_PORT == undefined) {
-        throw new Error('ASKIT_SERVER_PORT is not defined. Please define it in .env file.');
-    } else {
-        await app.listen(process.env.ASKIT_SERVER_PORT);
+    if (!applicationConfig.port) {
+        throw new Error('Port is not defined');
     }
+
+    await app.listen(applicationConfig.port);
 }
 
-bootstrap();
+bootstrap().catch((err) => {
+    logger.error(err);
+    process.exit(1);
+});

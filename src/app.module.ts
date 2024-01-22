@@ -3,27 +3,34 @@ import { GameGateway } from './game/game.gateway';
 import { LobbyManager } from './lobby-manager/lobby-manager.service';
 import { LobbyManagerController } from './lobby-manager/lobby-manager.controller';
 import { ScheduleModule } from '@nestjs/schedule';
-import { ConfigModule } from '@nestjs/config';
-import { config } from './lib/config';
 import { LoggerMiddleware } from './middlewares/logger.middleware';
 import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
 import { APP_GUARD } from '@nestjs/core';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { UserModule } from './user/user.module';
+import { ConfigModule, databaseConfig, throttlerConfig } from './config/config.module';
 
 @Module({
     imports: [
-        ConfigModule.forRoot({
-            load: [config.load],
-            isGlobal: true,
-            envFilePath: `.env.${process.env.NODE_ENV}`,
-            validationSchema: config.validationSchema
-        }),
+        ConfigModule,
         ScheduleModule.forRoot(),
         ThrottlerModule.forRoot([
             {
-                ttl: Number(process.env.THROTTLER_TTL),
-                limit: Number(process.env.THROTTLER_LIMIT)
+                ttl: throttlerConfig.ttl,
+                limit: throttlerConfig.limit
             }
-        ])
+        ]),
+        TypeOrmModule.forRoot({
+            type: 'postgres',
+            host: databaseConfig.host,
+            port: databaseConfig.port,
+            username: databaseConfig.username,
+            password: databaseConfig.password,
+            database: databaseConfig.database,
+            autoLoadEntities: true,
+            synchronize: true
+        }),
+        UserModule
     ],
     controllers: [LobbyManagerController],
     providers: [
