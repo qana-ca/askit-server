@@ -27,7 +27,7 @@ export class Lobby {
     }
 
     private generateConnectionCode(): string {
-        return randomUUID().slice(0, 6);
+        return randomUUID().slice(0, 6).toUpperCase();
     }
 
     public addClient(client: Client): void {
@@ -47,7 +47,6 @@ export class Lobby {
     }
 
     public dispatchLobbyState(): void {
-        console.log(this.clients);
         this.server.to(this.id).emit(ServerEvents.NotificationToLobby, this.clients.size);
     }
 

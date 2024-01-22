@@ -69,6 +69,7 @@ export class GameGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
         return {
             event: ServerEvents.ResponseLobbyCreated,
             data: {
+                status: 'success',
                 id: lobby.id
             }
         };

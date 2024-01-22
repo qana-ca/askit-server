@@ -1,3 +1,4 @@
+import { ConfigService } from '@nestjs/config';
 import { Cron } from '@nestjs/schedule';
 import { Server } from 'socket.io';
 import { ServerEvents } from 'src/game/game-events.types';
@@ -11,6 +12,8 @@ import { CreateLobbyDto, Lobbies } from 'src/lobby/lobby.types';
  * It is also responsible for connecting and disconnecting clients to/from lobbies.
  */
 export class LobbyManager {
+    constructor(private configService: ConfigService) {}
+
     public server: Server;
     public readonly lobbies: Lobbies = new Map<Lobby['id'], Lobby>();
 
@@ -39,8 +42,6 @@ export class LobbyManager {
 
         if (lobby) {
             lobby.removeClient(client);
-        } else {
-            throw new Error('Lobby not found');
         }
     }
 
@@ -66,7 +67,7 @@ export class LobbyManager {
             const lobbyCreatedAt = lobby.createdAt.getTime();
             const lobbyLifetime = now - lobbyCreatedAt;
 
-            if (lobbyLifetime > Number(process.env.LOBBY_MAX_LIFETIME)) {
+            if (lobbyLifetime > this.configService.get<number>('game.maxLobbyLifetime')) {
                 lobby.sendNotificationToLobby({
                     status: 'info',
                     message: 'Lobby is timed out. Destroying...'

@@ -1,6 +1,7 @@
-import { Controller, Get } from '@nestjs/common';
+import { Controller, Get, NotFoundException, Param, Req } from '@nestjs/common';
 import { LobbyManager } from './lobby-manager.service';
 import { GetLobbiesResponse } from './lobby-manager.types';
+import { Lobby } from 'src/lobby/lobby';
 
 @Controller('lobby-manager')
 export class LobbyManagerController {
@@ -23,5 +24,27 @@ export class LobbyManagerController {
         });
 
         return parsedLobbies;
+    }
+
+    @Get('/:lobbyId')
+    getLobby(@Param() { lobbyId }): any {
+        const lobbies = this.lobbyManager.lobbies;
+
+        console.log(lobbyId);
+
+        const lobby = lobbies.get(lobbyId);
+
+        if (!lobby) {
+            throw new NotFoundException('Lobby not found');
+        }
+
+        return {
+            id: lobby.id,
+            name: lobby.name,
+            connectionCode: lobby.connectionCode,
+            mode: lobby.mode,
+            playersCount: lobby.clients.size,
+            createdAt: lobby.createdAt
+        };
     }
 }

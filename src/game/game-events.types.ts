@@ -35,7 +35,7 @@ export enum ServerEvents {
 /*  */
 
 export type ServerStatusPayload = {
-    status?: 'success' | 'error' | 'info';
+    status: 'success' | 'error' | 'info';
 };
 
 export type ServerPayloads = {
