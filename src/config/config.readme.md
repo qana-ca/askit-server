@@ -27,8 +27,8 @@
 1. Создать новый класс соответствующий названию вложенности в yaml конфиге. Например мы добавляем объект rules
 ```yaml
 rules:
-	maxCardsLimit: 10
-	damageMultiplierByTurn: 1.3
+  maxCardsLimit: 10
+  damageMultiplierByTurn: 1.3
 ```
 2. По пути `src/config/config.ts` добавить новый класс описывающий данные параметры
 ```ts
