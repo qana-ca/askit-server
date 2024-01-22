@@ -8,12 +8,15 @@ export class LoggerMiddleware implements NestMiddleware {
 
     use(req: Request, res: Response, next: NextFunction) {
         const sessionId = randomUUID();
+        const dateStart = new Date();
 
         // Request
         this.logger.log(
-            `${sessionId} | REQUEST: [${req.method}] ${req.originalUrl} Body: ${JSON.stringify(
+            `${sessionId} | Request: [${req.method}] ${req.originalUrl} Body: ${JSON.stringify(
                 req.body
-            )} Referer: "${req.get('referer')}" UA: "${req.get('user-agent')}" IP: ${req.ip}`
+            )} Referer: "${req.get('referer')}" UA: "${req.get('user-agent')}" IP: ${
+                req.ip
+            } | ISO: ${new Date().toISOString()}`
         );
 
         // Response
@@ -21,7 +24,12 @@ export class LoggerMiddleware implements NestMiddleware {
             const { statusCode, statusMessage } = res;
             const { method, originalUrl: url } = req;
 
-            this.logger.log(`${sessionId} | RESPONSE: [${method}] ${url} ${statusCode} ${statusMessage}`);
+            const dateEnd = new Date();
+            const deltaTime = dateEnd.getTime() - dateStart.getTime();
+
+            this.logger.log(
+                `${sessionId} | Response: [${method}] ${url} ${statusCode} ${statusMessage} | Delta time: ${deltaTime}`
+            );
         });
 
         next();
