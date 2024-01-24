@@ -1,4 +1,5 @@
 import { WinstonModule } from 'nest-winston';
+import { loggerConfig } from 'src/config/config.module';
 import * as winston from 'winston';
 import * as DailyRotateFile from 'winston-daily-rotate-file';
 
@@ -10,14 +11,14 @@ export const logger = WinstonModule.createLogger({
             format: winston.format.combine(winston.format.timestamp(), winston.format.json()),
             datePattern: 'DD-MM-YYYY',
             zippedArchive: true,
-            maxFiles: process.env.LOGGER_ERROR_MAX_FILES
+            maxFiles: loggerConfig.errorMaxFiles
         }),
         new DailyRotateFile({
             filename: `logs/%DATE%-combined.log`,
             format: winston.format.combine(winston.format.timestamp(), winston.format.json()),
             datePattern: 'DD-MM-YYYY',
             zippedArchive: true,
-            maxFiles: process.env.LOGGER_COMBINED_MAX_FILES
+            maxFiles: loggerConfig.combinedMaxFiles
         }),
         new winston.transports.Console({
             format: winston.format.combine(
@@ -25,7 +26,7 @@ export const logger = WinstonModule.createLogger({
                 winston.format.splat(),
                 winston.format.timestamp(),
                 winston.format.printf((info) => {
-                    return `${info.timestamp} ${info.level}: ${info.message}`;
+                    return `${info.timestamp} | ${info.level}: ${info.message}`;
                 })
             )
         })
